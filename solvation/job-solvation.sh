@@ -29,7 +29,7 @@ do
     mkdir em
     cd em
 
-    gmx grompp -f ../../../mdp-files/em_steep_$i.mdp -c ../../solvation-energy.gro -p ../../topol.top -o em$i.tpr -maxwarn 5
+    gmx grompp -f ../../../mdp-files/em_steep_$i.mdp -c ../../nirma-water.gro -p ../../topol.top -o em$i.tpr -maxwarn 5
 
     srun gmx_mpi mdrun -s em$i.tpr -c em$i.gro
 
