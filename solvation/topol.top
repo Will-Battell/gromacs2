@@ -1,0 +1,15 @@
+; Topology file
+
+; Include forcefield parameters
+#include "oplsaa.ff/forcefield.itp"
+
+; Include water topology parameters
+#include "oplsaa.ff/spc.itp"
+
+[ system ]
+; Name
+
+[ molecules ]
+; Compound        #mols
+OW1              1
+
