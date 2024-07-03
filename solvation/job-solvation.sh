@@ -29,7 +29,7 @@ do
     mkdir em
     cd em
 
-    gmx grompp -f ../../mdp-files/em_steep_$i.mdp -c ../../binding-energy.gro -p ../../topol.top -o em$i.tpr -maxwarn 5
+    gmx grompp -f ../../../mdp-files/em_steep_$i.mdp -c ../../solvation-energy.gro -p ../../topol.top -o em$i.tpr -maxwarn 5
 
     srun gmx_mpi mdrun -s em$i.tpr -c em$i.gro
 
@@ -40,7 +40,7 @@ do
     mkdir NVT
     cd NVT
 
-    gmx grompp -f ../../mdp-files/nvt_$i.mdp -c ../em/em$i.gro -p ../../topol.top -o nvt$i.tpr -maxwarn 5
+    gmx grompp -f ../../../mdp-files/nvt_$i.mdp -c ../em/em$i.gro -p ../../topol.top -o nvt$i.tpr -maxwarn 5
 
     srun gmx_mpi mdrun -s nvt$i.tpr -c nvt$i.gro
 
@@ -50,7 +50,7 @@ do
     mkdir NPT
     cd NPT
 
-    gmx grompp -f ../../mdp-files/npt_$i.mdp -c ../nvt/nvt$i.gro -p ../../topol.top -o npt$i.tpr -maxwarn 5
+    gmx grompp -f ../../../mdp-files/npt_$i.mdp -c ../nvt/nvt$i.gro -p ../../topol.top -o npt$i.tpr -maxwarn 5
 
     srun gmx_mpi mdrun -s npt$i.tpr -c npt$i.gro
 
@@ -60,7 +60,7 @@ do
     mkdir Production_MD
     cd Production_MD
 
-    gmx grompp -f ../../mdp-files/md_$i.mdp -c ../npt/npt$i.gro -p ../../topol.top -o md$i.tpr -maxwarn 5
+    gmx grompp -f ../../../mdp-files/md_$i.mdp -c ../npt/npt$i.gro -p ../../topol.top -o md$i.tpr -maxwarn 5
 
     srun gmx_mpi mdrun -s md$i.tpr -c md$i.gro
 
