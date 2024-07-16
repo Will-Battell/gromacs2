@@ -43,26 +43,29 @@ Pcoupl                   = Parrinello-Rahman
 tau_p                    = 1.0
 compressibility          = 4.5e-05
 ref_p                    = 1.0 
-; Free energy control stuff
-free_energy              = yes
-init_lambda_state        = 0
-delta_lambda             = 0
-calc_lambda_neighbors    = 1        ; only immediate neighboring windows
-couple-moltype           = OW1  ; name of moleculetype to decouple
-couple-lambda0           = vdw      ; only van der Waals interactions
-couple-lambda1           = none     ; turn off everything, in this case only vdW
-couple-intramol          = no
-; Vectors of lambda specified here
-; Each combination is an index that is retrieved from init_lambda_state for each simulation
+; Parameters for controlling free energy
+free_energy              = yes      ; yes we want to inclue these free energy parameters
+init_lambda_state        = 0        ; which lambda step to use for this simulation
+delta_lambda             = 0        ; leave this at 0 as we are doing discrete individual simulations for each lamdbda step
+calc_lambda_neighbors    = 1        ; determines how many number of neighbours to determine free energy for a particular lambda step
+couple-moltype           = OW1      ; name of molecule we want to calculate free energy for
+couple-lambda0           = vdw      ; at lambda step 0 we have full interactions - specifically van der waals
+couple-lambda1           = none     ; at lambda step 1 we have no interactions
+couple-intramol          = no       ; if we want to turn off/on interactions intra-molecularly
+; The number of lambda steps and the degree of interactions of each step are defined here
+; We define all the steps we want to use however our simulation will only use one of these depending on the value of init_lambda_state
 ; init_lambda_state        0    1    2    3    4    5    6    7    8    9    10   11   12   13   14   15   16   17   18   19   20
 vdw_lambdas              = 0.00 0.05 0.10 0.15 0.20 0.25 0.30 0.35 0.40 0.45 0.50 0.55 0.60 0.65 0.70 0.75 0.80 0.85 0.90 0.95 1.00
+; We are not controlling any of these additional parameters using lambda steps
+; Coulombic interactions
 coul_lambdas             = 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00
-; We are not transforming any bonded or restrained interactions 
+; Bonded interactions 
 bonded_lambdas           = 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00
+; Quantity of restraints
 restraint_lambdas        = 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00
-; Masses are not changing (particle identities are the same at lambda = 0 and lambda = 1)
+; Atomic mass for the molecule remains the same
 mass_lambdas             = 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00
-; Not doing simulated temperting here
+; Temperature of the simulation remains the same throughout
 temperature_lambdas      = 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00
 ; Options for the decoupling
 sc-alpha                 = 0.5
