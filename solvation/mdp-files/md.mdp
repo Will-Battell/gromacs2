@@ -1,0 +1,86 @@
+; Run control
+integrator               = sd       ; Langevin dynamics
+tinit                    = 0
+dt                       = 0.002
+nsteps                   = 500000   ; 1 ns
+nstcomm                  = 100
+; Output control
+nstxout                  = 500
+nstvout                  = 500
+nstfout                  = 0
+nstlog                   = 500
+nstenergy                = 500
+nstxout-compressed       = 0
+; Neighborsearching and short-range nonbonded interactions
+cutoff-scheme            = verlet
+nstlist                  = 20
+ns_type                  = grid
+pbc                      = xyz
+rlist                    = 1.6
+; Electrostatics
+coulombtype              = PME
+rcoulomb                 = 1.6
+; van der Waals
+vdwtype                  = cutoff
+vdw-modifier             = potential-switch
+rvdw-switch              = 1.0
+rvdw                     = 1.6
+; Apply long range dispersion corrections for Energy and Pressure
+DispCorr                  = EnerPres
+; Spacing for the PME/PPPM FFT grid
+fourierspacing           = 0.12
+; EWALD/PME/PPPM parameters
+pme_order                = 6
+ewald_rtol               = 1e-06
+epsilon_surface          = 0
+; Temperature coupling
+; tcoupl is implicitly handled by the sd integrator
+tc_grps                  = system
+tau_t                    = 1.0
+ref_t                    = 298 
+; Pressure coupling is on for NPT
+Pcoupl                   = Parrinello-Rahman 
+tau_p                    = 1.0
+compressibility          = 4.5e-05
+ref_p                    = 1.0 
+; Parameters for controlling free energy
+free_energy              = yes      ; yes we want to inclue these free energy parameters
+init_lambda_state        = 0        ; which lambda step to use for this simulation
+delta_lambda             = 0        ; leave this at 0 as we are doing discrete individual simulations for each lamdbda step
+calc_lambda_neighbors    = 1        ; determines how many number of neighbours to determine free energy for a particular lambda step
+couple-moltype           = OW1      ; name of molecule we want to calculate free energy for
+couple-lambda0           = vdw      ; at lambda step 0 we have full interactions - specifically van der waals
+couple-lambda1           = none     ; at lambda step 1 we have no interactions
+couple-intramol          = no       ; if we want to turn off/on interactions intra-molecularly
+; The number of lambda steps and the degree of interactions of each step are defined here
+; We define all the steps we want to use however our simulation will only use one of these depending on the value of init_lambda_state
+; init_lambda_state        0    1    2    3    4    5    6    7    8    9    10   11   12   13   14   15   16   17   18   19   20
+vdw_lambdas              = 0.00 0.05 0.10 0.15 0.20 0.25 0.30 0.35 0.40 0.45 0.50 0.55 0.60 0.65 0.70 0.75 0.80 0.85 0.90 0.95 1.00
+; We are not controlling any of these additional parameters using lambda steps
+; Coulombic interactions
+coul_lambdas             = 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00
+; Bonded interactions 
+bonded_lambdas           = 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00
+; Quantity of restraints
+restraint_lambdas        = 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00
+; Atomic mass for the molecule remains the same
+mass_lambdas             = 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00
+; Temperature of the simulation remains the same throughout
+temperature_lambdas      = 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00
+; Options for the decoupling
+sc-alpha                 = 0.5
+sc-coul                  = no       ; linear interpolation of Coulomb (none in this case)
+sc-power                 = 1
+sc-sigma                 = 0.3 
+nstdhdl                  = 10
+; Do not generate velocities
+gen_vel                  = no 
+; options for bonds
+constraints              = h-bonds  ; we only have C-H bonds here
+; Type of constraint algorithm
+constraint-algorithm     = lincs
+; Constrain the starting configuration
+; since we are continuing from NPT
+continuation             = yes 
+; Highest order in the expansion of the constraint coupling matrix
+lincs-order              = 12
