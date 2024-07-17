@@ -1,5 +1,0 @@
-for i in {0..20}; do
-
-sed "48s/.*/init_lambda_state        = $i/" $1.mdp > $1_$i.mdp
-
-done
